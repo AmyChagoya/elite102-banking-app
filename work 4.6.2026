@@ -1,0 +1,32 @@
+import sqlite3
+
+# Step 1: Connect to a database (this creates it in memory)
+conn = sqlite3.connect(':memory:')
+cursor = conn.cursor()
+
+# Step 2: Create a table called 'contacts'
+cursor.execute('''
+    CREATE TABLE contacts (
+        id INTEGER PRIMARY KEY,
+        name TEXT,
+        email TEXT
+    )
+''')
+
+# Step 3: Insert 2 contacts (try changing these to your own info!)
+cursor.execute("INSERT INTO contacts VALUES (1, 'Mocha Chagoya', 'mochachagoya@gmail.com')")
+cursor.execute("INSERT INTO contacts VALUES (2, 'Amy Chagoya', 'amychagoya801@gmail.com')")
+
+# IMPORTANT: commit your changes to save them
+conn.commit()
+
+# Step 4: Query all contacts and print them
+cursor.execute("SELECT * FROM contacts")
+rows = cursor.fetchall()
+
+print("All contacts:")
+for row in rows:
+    print(f"  ID: {row[0]}, Name: {row[1]}, Email: {row[2]}")
+
+# Clean up
+conn.close()
